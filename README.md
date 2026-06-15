@@ -1,4 +1,6 @@
-# Watermark Core Engine v2.0
+# Now available--- Docker containers for the (encoder) via http://localIPaddress:8000/docs (Decoder) http://yourlocalIPaddress:8001/docs  as well as a container running postgresql and a database to log runs, image names, datestamp, etc.
+
+# Watermark Core Engine v2.0, python executable app, self run application.
 
 As art theft in the digital age becomes increasingly common, this lightweight, localized Python toolkit allows creators to protect ownership without altering the aesthetic value of an image. 
 
