@@ -1,4 +1,4 @@
-# Now available--- Docker containers for the (encoder) via http://localIPaddress:8000/docs (Decoder) http://yourlocalIPaddress:8001/docs  as well as a container running postgresql and a database to log runs, image names, datestamp, etc.
+# Now available--- Docker containers for the (encoder) via yourlocalIPaddress:8000/docs (Decoder) yourlocalIPaddress:8001/docs  as well as a container running postgresql and a database to log runs, image names, datestamp, etc.
 
 # Watermark Core Engine v2.0, python executable app, self run application.
 
