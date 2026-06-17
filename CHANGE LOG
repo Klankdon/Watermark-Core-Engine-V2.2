@@ -1,0 +1,35 @@
+​
+​All notable changes to this project will be documented in this file.
+​The format is based on Keep a Changelog,
+and this project adheres to Semantic Versioning.
+​[3.0.0-alpha] - Planning & Logistics
+
+​Added
+​Proposed OAuth2/JWT authentication layer to secure backend endpoints against unauthorized automated usage.
+​Planned local ComfyUI instance ecosystem integration via custom JSON API payloads.
+​Structured dual-directory automated volume partitioning (/originals and /watermarked).
+​Designed persistent relational logging schema in PostgreSQL to track execution latency, matrix transformations, and file generation states.
+​[2.2.0] - 2026-06-16
+
+​Added
+​Created a new, distributed microservices repository structure (Watermark-Core-Engine-V2.2).
+​Deployed decoupled API testing endpoints using FastAPI with active Swagger UI documentation (/docs).
+​Isolated the application layer by separating the Encoder instance (Port 49055) from the Decoder instance (Port 49056).
+​Shifted the underlying mathematical transformation pipeline to a dedicated PyTorch Core Engine.
+
+​Changed
+​Migrated core array manipulation from generic Python image processing to PyTorch tensor matrices to utilize optimized hardware allocation.
+​Hardened backend security parameters by trapping the PostgreSQL container and pgadmin-web strictly within the internal Ubuntu server loop (localhost/Docker bridge).
+
+​Fixed
+​Resolved cascading gateway timeouts and frontend CORS network errors caused by unmanaged memory paging.
+​Mitigated system Out-Of-Memory (OOM) fatal crashes and VRAM-to-RAM thrashing when processing heavy high-resolution canvas layers (3072 \times 3072 pixels).
+​[2.1.0] - 2026-06-15
+
+​Security
+​Migrated the public repository license scheme to AGPL-3.0 (Affero General Public License) to prevent proprietary corporate web scraping and protect open-source creator derivations.
+​Initiated Edge Network Hardening protocol following a localized spike in brute-force scanning activity from international IP ranges (RU, IN, FR). Prepared custom ipset firewall policies for deployment on Ubiquiti EdgeRouter/EdgeSwitch hardware.
+​[2.0.0] - 2026-06-14
+
+​Added
+​Released the initial open-source Python watermarking tool (app.py) featuring inverted pixel overlays and imperceptible spatial color-palette manipulation.
