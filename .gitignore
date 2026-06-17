@@ -218,3 +218,13 @@ __marimo__/
 .streamlit/secrets.toml
 # Local container staging
 /tmp/
+
+# =====================================================================
+# Local Hardware & Infrastructure Sync Exclusions (2026 Updates)
+# =====================================================================
+.env
+pgadmin_data/
+local_postgres_data/
+*.jpg
+*.png
+*.csv

@@ -1,22 +1,16 @@
 # =====================================================================
 # Copyright (c) 2026 Jeremy McGehee (Klankton)
-# 
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU Affero General Public License as
-# published by the Free Software Foundation, either version 3 of the
-# License, or (at your option) any later version.
-#
-# This program is distributed WITHOUT ANY WARRANTY; without even the
-# implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-# See the GNU Affero General Public License for more details.
+# AGPL-3.0 License Orchestration Manifest
 # =====================================================================
 version: '3.8'
 
+name: local-watermark-gpu
+
 services:
-  # --- Service 1: The Database ---
+  # --- Service 1: Local Database Core ---
   db:
     image: postgres:15-alpine
-    container_name: watermark_db
+    container_name: local_watermark_db
     restart: always
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
@@ -25,15 +19,14 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - local_postgres_data:/var/lib/postgresql/data
 
-  # --- Service 2: Your Watermark Engine ---
+  # --- Service 2: GPU Encoder API Engine ---
   encoder_app:
     build: .
     dns:
       - 8.8.8.8
-    container_name: watermark_encoder
-    # Instead of running the file directly, we use uvicorn to host it as an API
+    container_name: local_watermark_encoder
     command: uvicorn server:app --host 0.0.0.0 --port 8000
     ports:
       - "8000:8000"
@@ -41,13 +34,20 @@ services:
       - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
     depends_on:
       - db
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
 
+  # --- Service 3: GPU Decoder API Engine ---
   decoder_app:
     build: .
     dns:
       - 8.8.8.8
-    container_name: watermark_decoder
-    # Point this one to the new decoder wrapper file on port 8001
+    container_name: local_watermark_decoder
     command: uvicorn server_decoder:app --host 0.0.0.0 --port 8001
     ports:
       - "8001:8001"
@@ -55,8 +55,33 @@ services:
       - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
     depends_on:
       - db
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
 
-# Define the persistent storage drive for the database
+# ... (keep your existing db, encoder_app, and decoder_app services exactly as they are)
+
+  # --- Service 4: Web-Based Database Management GUI ---
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: local_watermark_pgadmin
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+    ports:
+      - "8080:80"
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    depends_on:
+      - db
+
 volumes:
-  postgres_data:
+  local_postgres_data:
+  pgadmin_data:  # <-- Don't forget to declare the new storage volume at the very bottom!
+
 
