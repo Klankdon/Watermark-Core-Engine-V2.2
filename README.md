@@ -1,3 +1,14 @@
+Updated to run with pytorch, added nvidia, added pgadmin web, 
+# Local Database Credentials
+POSTGRES_USER=your_local_db_user
+POSTGRES_PASSWORD=your_secure_db_password
+POSTGRES_DB=watermark_records
+
+# Local pgAdmin Web Portal Credentials
+PGADMIN_DEFAULT_EMAIL=developer@domain.com
+PGADMIN_DEFAULT_PASSWORD=developer_secure_password
+
+
 # Now available--- Docker containers for the (encoder) via yourlocalIPaddress:8000/docs (Decoder) yourlocalIPaddress:8001/docs  as well as a container running postgresql and a database to log runs, image names, datestamp, etc.
 
 # Watermark Core Engine v2.0, python executable app, self run application.
